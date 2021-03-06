@@ -1,9 +1,28 @@
-const request = require("request");
+const geocode = require("./utils/geocode");
+const forecast = require("./utils/forecast");
+
+const address = process.argv[2];
 const chalk = require("chalk");
 
+if (!address) {
+    console.log(chalk.bgYellow("please provide an address"));
+} else {
+    geocode(address, (error, { latitude, longitude, location }) => {
+        if (error) {
+            return console.log(error);
+        }
+        forecast(latitude, longitude, (error, forecastData) => {
+            if (error) {
+                return console.log(error);
+            }
+            console.log(chalk.bgGreen(location));
+            console.log(chalk.bgGreen(forecastData));
+        });
+    });
+}
+
+/*
 const WEATHERSTACK_API_KEY = "c0f95c43b26edd8f79e7629575c7aec0";
-const MAPBOX_API_KEY =
-    "pk.eyJ1IjoidGVycmFjb3R0YTU1IiwiYSI6ImNrbHdzcXNzbTE1NnYydXM1c2l1bjlxMTEifQ.pB2jMDYb-Z73U9EMaRAl_w";
 
 const weatherUrl = `http://api.weatherstack.com/current?access_key=${WEATHERSTACK_API_KEY}&query=37.8267,-122.4233`;
 
@@ -20,7 +39,10 @@ request({ url: weatherUrl, json: true }, (error, { body }) => {
         );
     }
 });
-
+*/
+/*
+const MAPBOX_API_KEY =
+    "pk.eyJ1IjoidGVycmFjb3R0YTU1IiwiYSI6ImNrbHdzcXNzbTE1NnYydXM1c2l1bjlxMTEifQ.pB2jMDYb-Z73U9EMaRAl_w";
 
 const geocodeUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/Los%20Angeles.json?access_token=${MAPBOX_API_KEY}&limit=1`;
 
@@ -36,3 +58,4 @@ request({ url: geocodeUrl, json: true }, (error, { body }) => {
         console.log(chalk.bgGreen("latitude: "), chalk.bgGreen(latitude));
     }
 });
+*/
