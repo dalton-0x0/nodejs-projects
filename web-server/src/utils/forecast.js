@@ -13,7 +13,7 @@ const forecast = (latitude, longitude, callback) => {
         } else {
             callback(
                 undefined,
-                `${body.location.name} current temp is: ${body.current.temperature}ºC`
+                `${body.location.name} is ${body.current.weather_descriptions}, the current temp is ${body.current.temperature}ºC but it feels like ${body.current.feelslike}ºC`
             );
         }
     });
